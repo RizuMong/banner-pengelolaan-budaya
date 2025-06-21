@@ -120,12 +120,12 @@ export default function Home() {
       >
         <CarouselContent className="h-full md:h-screen">
           {carouselData.map((item) => (
-            <CarouselItem key={item.id} className="h-full md:h-screen">
+            <CarouselItem key={item.id} className="relative w-full h-screen">
               <div className="relative w-full h-full">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-72 md:h-full object-cover"
+                  className="w-full h-full object-cover"
                   loading="lazy"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 md:p-8">
@@ -138,11 +138,9 @@ export default function Home() {
           ))}
         </CarouselContent>
 
-        {/* Tombol navigasi desktop */}
         <CarouselPrevious className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
         <CarouselNext className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
 
-        {/* Tombol navigasi mobile */}
         <div className="md:hidden absolute bottom-4 left-0 right-0 flex justify-center gap-4 z-10">
           <CarouselPrevious className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
           <CarouselNext className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
