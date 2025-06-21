@@ -76,7 +76,7 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-2 border-white border-t-transparent mx-auto"></div>
           <p className="mt-4 text-white text-sm">Loading...</p>
@@ -87,7 +87,7 @@ export default function Home() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 text-lg mb-4">{error}</p>
           <button
@@ -103,29 +103,29 @@ export default function Home() {
 
   if (carouselData.length === 0) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-white text-lg">No images available</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black overflow-y-auto md:overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden group">
       <Carousel
         opts={{
           align: "center",
           loop: true,
         }}
-        className="relative w-full h-full md:h-screen"
+        className="w-full h-auto md:h-screen"
       >
-        <CarouselContent className="h-full md:h-screen">
+        <CarouselContent className="h-auto md:h-screen">
           {carouselData.map((item) => (
-            <CarouselItem key={item.id} className="relative w-full">
-              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-md">
+            <CarouselItem key={item.id} className="relative w-full h-auto">
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded flex transition-transform duration-500 ease-in-out">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-auto object-cover"
                   loading="lazy"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 md:p-8">
