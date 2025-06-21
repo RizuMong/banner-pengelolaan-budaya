@@ -146,6 +146,16 @@ export default function Home() {
           <CarouselNext className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
         </div>
       </Carousel>
+      
+      {/* Embed Talenta */}
+      <div className="mt-0 w-full h-[600px] md:h-[800px]">
+        <iframe
+          src="https://www.talenta.co/"
+          title="Talenta Site Embed"
+          className="w-full h-full border-none rounded-none"
+          loading="lazy"
+        ></iframe>
+      </div>
     </div>
   );
 }
