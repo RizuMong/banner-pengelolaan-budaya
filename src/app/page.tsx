@@ -120,8 +120,8 @@ export default function Home() {
       >
         <CarouselContent className="h-full md:h-screen">
           {carouselData.map((item) => (
-            <CarouselItem key={item.id} className="relative w-full h-screen">
-              <div className="relative w-full h-full">
+            <CarouselItem key={item.id} className="relative w-full">
+              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded-md">
                 <img
                   src={item.image}
                   alt={item.title}
