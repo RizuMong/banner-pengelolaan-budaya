@@ -56,13 +56,11 @@ export default function Home() {
           throw new Error("Invalid data format received from API");
         }
 
-        const transformedData: CarouselData[] = result.data.map(
-          (item: BannerData) => ({
-            id: item.id_banner,
-            title: item.title,
-            image: item.attachment,
-          })
-        );
+        const transformedData: CarouselData[] = result.data.map((item) => ({
+          id: item.id_banner,
+          title: item.title,
+          image: item.attachment,
+        }));
 
         setCarouselData(transformedData);
       } catch (err) {
@@ -112,26 +110,26 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center">
+    <div className="min-h-screen bg-black overflow-y-auto md:overflow-hidden">
       <Carousel
         opts={{
           align: "center",
           loop: true,
         }}
-        className="w-full md:h-screen"
+        className="relative w-full h-full md:h-screen"
       >
-        <CarouselContent className="md:h-screen">
+        <CarouselContent className="h-full md:h-screen">
           {carouselData.map((item) => (
-            <CarouselItem key={item.id} className="md:h-screen">
-              <div className="relative w-full h-full flex items-center justify-center">
+            <CarouselItem key={item.id} className="h-full md:h-screen">
+              <div className="relative w-full h-full">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-auto object-contain md:h-full md:object-cover"
+                  className="w-full h-72 md:h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-8">
-                  <h2 className="text-white text-xl font-medium">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 md:p-8">
+                  <h2 className="text-white text-base md:text-xl font-medium">
                     {item.title}
                   </h2>
                 </div>
@@ -140,8 +138,15 @@ export default function Home() {
           ))}
         </CarouselContent>
 
-        <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
-        <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
+        {/* Tombol navigasi desktop */}
+        <CarouselPrevious className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
+        <CarouselNext className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 hover:bg-black/40 border-0 text-white backdrop-blur-sm transition-all duration-200 opacity-60 hover:opacity-100" />
+
+        {/* Tombol navigasi mobile */}
+        <div className="md:hidden absolute bottom-4 left-0 right-0 flex justify-center gap-4 z-10">
+          <CarouselPrevious className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
+          <CarouselNext className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
+        </div>
       </Carousel>
     </div>
   );
