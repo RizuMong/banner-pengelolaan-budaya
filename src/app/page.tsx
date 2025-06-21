@@ -13,6 +13,7 @@ interface BannerData {
   id_banner: string;
   title: string;
   attachment: string;
+  destination_url: string;
 }
 
 interface APIResponse {
@@ -23,6 +24,7 @@ interface CarouselData {
   id: string;
   title: string;
   image: string;
+  destination_url: string;
 }
 
 export default function Home() {
@@ -60,6 +62,7 @@ export default function Home() {
           id: item.id_banner,
           title: item.title,
           image: item.attachment,
+          destination_url: item.destination_url,
         }));
 
         setCarouselData(transformedData);
@@ -121,11 +124,16 @@ export default function Home() {
         <CarouselContent className="h-auto md:h-screen">
           {carouselData.map((item) => (
             <CarouselItem key={item.id} className="relative w-full h-auto">
-              <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded flex transition-transform duration-500 ease-in-out">
+              <a
+                href={item.destination_url || "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden rounded flex transition-transform duration-500 ease-in-out group"
+              >
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-300"
                   loading="lazy"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 md:p-8">
@@ -133,7 +141,7 @@ export default function Home() {
                     {item.title}
                   </h2>
                 </div>
-              </div>
+              </a>
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -146,7 +154,7 @@ export default function Home() {
           <CarouselNext className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
         </div>
       </Carousel>
-      
+
       {/* Embed Talenta */}
       <div className="mt-0 w-full h-[600px] md:h-[800px]">
         <iframe
