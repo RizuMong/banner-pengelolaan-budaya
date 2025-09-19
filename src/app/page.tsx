@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   Carousel,
   CarouselContent,
@@ -11,9 +12,9 @@ import {
 
 interface BannerData {
   id_banner: string;
-  title: string;
+  judul_banner: string; // update: judul_banner
   attachment: string;
-  destination_url: string;
+  alamat_web_tujuan: string; // update: alamat_web_tujuan
 }
 
 interface APIResponse {
@@ -28,22 +29,34 @@ interface CarouselData {
 }
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token");
+
   const [carouselData, setCarouselData] = useState<CarouselData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!token) {
+      setError("Token is required in the URL params.");
+      setLoading(false);
+      return;
+    }
+
     const fetchCarouselData = async () => {
       try {
         setLoading(true);
         setError(null);
 
         const response = await fetch(
-          "https://apiv2-bpjs.jojonomic.com/27414/v1/index/banner",
+          `https://apiv2-bpjs.jojonomic.com/27414/ess/v1/budaya/get/banner?token=${encodeURIComponent(
+            token
+          )}`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
+              Authorization: token,
             },
           }
         );
@@ -54,20 +67,19 @@ export default function Home() {
 
         const result: APIResponse = await response.json();
 
-        if (!result.data || !Array.isArray(result.data)) {
+        if (!Array.isArray(result.data)) {
           throw new Error("Invalid data format received from API");
         }
 
         const transformedData: CarouselData[] = result.data.map((item) => ({
           id: item.id_banner,
-          title: item.title,
+          title: item.judul_banner, // update: judul_banner
           image: item.attachment,
-          destination_url: item.destination_url,
+          destination_url: item.alamat_web_tujuan, // update: alamat_web_tujuan
         }));
 
         setCarouselData(transformedData);
       } catch (err) {
-        console.error("Error fetching carousel data:", err);
         setError(err instanceof Error ? err.message : "Failed to load images");
       } finally {
         setLoading(false);
@@ -75,7 +87,7 @@ export default function Home() {
     };
 
     fetchCarouselData();
-  }, []);
+  }, [token]);
 
   if (loading) {
     return (
@@ -154,16 +166,6 @@ export default function Home() {
           <CarouselNext className="w-10 h-10 bg-white text-black rounded-full shadow hover:bg-gray-100" />
         </div>
       </Carousel>
-
-      {/* Embed Talenta */}
-      <div className="mt-0 w-full h-[600px] md:h-[800px]">
-        <iframe
-          src="https://www.talenta.co/"
-          title="Talenta Site Embed"
-          className="w-full h-full border-none rounded-none"
-          loading="lazy"
-        ></iframe>
-      </div>
     </div>
   );
 }
