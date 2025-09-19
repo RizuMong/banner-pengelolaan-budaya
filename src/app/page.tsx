@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Carousel,
@@ -28,7 +28,7 @@ interface CarouselData {
   destination_url: string;
 }
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -167,5 +167,13 @@ export default function Home() {
         </div>
       </Carousel>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   );
 }
